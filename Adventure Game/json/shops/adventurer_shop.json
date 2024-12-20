@@ -1,0 +1,15 @@
+{
+    "name": "Adventurer's Shop",
+    "inventory": {
+        "weapons": {
+            "Basic Sword": 20
+        },
+        "armours": {
+            "Leather Armour": 15
+        },
+        "potions": {
+            "Small Healing Potion": 20,
+            "Small Strength Potion": 25
+        }
+    }
+}

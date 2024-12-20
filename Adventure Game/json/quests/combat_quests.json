@@ -1,0 +1,26 @@
+{
+    "forest_quest": {
+        "desc": "Defeat 3 creatures in the Haunted Forest.",
+        "area": "Haunted Forest",
+        "reward": {"xp": 25, "gold": 20},
+        "target_type": "any",
+        "target_count": 3,
+        "min_difficulty": 0
+    },
+    "defeat_medium": {
+        "desc": "Defeat 4 creatures within an area of difficulty 3 or higher.",
+        "area": "any",
+        "reward": {"xp": 45, "gold": 20, "items": ["small_healing_potion"]},
+        "target_type": "any",
+        "target_count": 4,
+        "min_difficulty": 3
+    },
+    "fairy_quest": {
+        "desc": "Defeat 3 fairies in the Enchanted Glade.",
+        "area": "Enchanted Glade",
+        "reward": {"xp": 30, "gold": 25},
+        "target_type": "fairy",
+        "target_count": 3,
+        "min_difficulty": 0
+    }
+}

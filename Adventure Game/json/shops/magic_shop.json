@@ -1,0 +1,15 @@
+{
+    "name": "Magic Shop",
+    "inventory": {
+        "weapons": {
+            "Great Sword": 45
+        },
+        "armours": {
+            "Plate Armour": 40
+        },
+        "potions": {
+            "Large Healing Potion": 35,
+            "Large Strength Potion": 40
+        }
+    }
+}

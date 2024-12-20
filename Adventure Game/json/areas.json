@@ -1,0 +1,52 @@
+{
+    "Haunted Forest": {
+        "name": "Haunted Forest",
+        "difficulty": 1,
+        "creature_types": ["zombie", "goblin"],
+        "max_creatures": 3,
+        "treasure_chance": 0.1,
+        "treasure_quality_list": [1, 2],
+        "event_sequence": ["combat", "treasure"],
+        "locked": true
+    },
+    "Enchanted Glade": {
+        "name": "Enchanted Glade",
+        "difficulty": 3,
+        "creature_types": ["spirit", "fairy"],
+        "max_creatures": 3,
+        "boss": "fairy queen",
+        "treasure_chance": 0.2,
+        "treasure_quality_list": [2, 3],
+        "event_sequence": ["combat", "boss", "treasure"],
+        "locked": true
+    },
+    "Poisoned Marsh": {
+        "name": "Poisoned Marsh",
+        "difficulty": 2,
+        "creature_types": ["giant frog", "swamp monster"],
+        "max_creatures": 3,
+        "treasure_chance": 0.2,
+        "treasure_quality_list": [2, 3],
+        "event_sequence": ["combat", "treasure"],
+        "locked": true
+    },
+    "Wizard's Tower": {
+        "name": "Wizard's Tower",
+        "difficulty": 4,
+        "creature_types": ["skeleton"],
+        "max_creatures": 3,
+        "boss": "dark wizard",
+        "event_sequence": ["combat", "boss"],
+        "locked": true
+    },
+    "Mountain Cave": {
+        "name": "Mountain Cave",
+        "difficulty": 5,
+        "creature_types": ["giant spider", "orc", "troll"],
+        "max_creatures": 3,
+        "treasure_chance": 0.3,
+        "treasure_quality_list": [1, 2, 3, 4, 5, 6],
+        "event_sequence": ["combat", "treasure"],
+        "locked": true
+    }
+}
