@@ -1,0 +1,83 @@
+{
+    "weapons": [
+        {
+           "name": "Basic Sword",
+           "effect_value": 2,
+           "desc": "A simple sword giving +2 attack." 
+        },
+        {
+            "name": "Great Sword",
+            "effect_value": 4,
+            "desc": "A powerful sword giving +4 attack."
+        }
+    ],
+
+    "armours": [
+        {
+            "name": "Leather Armour",
+            "effect_value": 2,
+            "desc": "Basic armour giving +2 defence."
+        },
+        {
+            "name": "Plate Armour",
+            "effect_value": 4,
+            "desc": "Heavy armour giving +4 defence."
+        }
+    ],
+
+    "potions": [
+        {
+            "name": "Small Healing Potion",
+            "effect_type": "heal",
+            "effect_value": 8,
+            "desc": "Heals 8 health."
+        },
+        {
+            "name": "Large Healing Potion",
+            "effect_type": "heal",
+            "effect_value": 24,
+            "desc": "Heals 24 health"
+        },
+        {
+            "name": "Small Strength Potion",
+            "effect_type": "strength_boost",
+            "effect_value": 3,
+            "desc": "Gives +3 attack for 3 turns.",
+            "duration": 3
+        },
+        {
+            "name": "Large Strength Potion",
+            "effect_type": "strength_boost",
+            "effect_value": 8,
+            "desc": "Gives +8 attack for 3 turns.",
+            "duration": 3
+        }
+    ],
+
+    "miscellaneous": [
+        {
+            "name": "Mysterious Stone",
+            "type": "story_item",
+            "effect_value": 0,
+            "desc": "A strange stone emitting an ominous glow. It seems to hold a dark secret."
+        },
+        {
+            "name": "Blessed Water",
+            "type": "story_item",
+            "effect_value": 0,
+            "desc": "Water purified by the spirits of the Enchanted Glade."
+        },
+        {
+            "name": "Enchanted Herb",
+            "type": "story_item",
+            "effect_value": 0,
+            "desc": "A rare herb found in the Poisoned Marsh."
+        },
+        {
+            "name": "Wizard's Medallion",
+            "type": "story_item",
+            "effect_value": 0,
+            "desc": "A medallion bearing the sigil of the Wizard's Tower."
+        }
+    ]
+}

@@ -1,0 +1,154 @@
+{
+    "first_story_quest": {
+        "desc": "Help the Worried Villager by investigating the Haunted Forest.",
+        "area": "Haunted Forest",
+        "reward": {
+            "xp": 5,
+            "gold": 5
+        },
+        "steps": [
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "worried_villager"
+                },
+                "description": "Talk to the Worried Villager to learn more about their concerns.",
+                "dialogue": "Something has cursed our beloved forest. Won't you please investigate brave adventurer? But be careful, these days the forest is a dangerous place.",
+                "unlock_area": "haunted_forest"
+            },
+            {
+                "type": "exploration",
+                "trigger": {
+                    "area": "haunted_forest"
+                },
+                "description": "Investigate the Haunted Forest to uncover the source of the disturbance.",
+                "story_text": "As you delve deeper into the forest, you feel a dark and eerie presence. As you walk, you notice a strange stone stuck to the top of a larger rock, emitting an ominous glow. Perhaps this is the source of the disturbance. You decide to bring it back with you.",
+                "story_item": "mysterious_stone"
+            },
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "worried_villager"
+                },
+                "description": "Return to the Worried Villager and inform them of your findings.",
+                "dialogue": "You've returned! That item you found... I can feel the cursed energy emanating from it. I am not sure as to what it is, but if someone does, its the old man in the village outskirts. You should probably go see him. Thank you so much for your help, maybe we can soon enjoy our forest once again."
+            }
+        ],
+        "linked_location": "village",
+        "unlock_quest": "second_story_quest"
+    },
+    "second_story_quest": {
+        "desc": "Speak to the Old Man about the cursed stone.",
+        "area": "Village Outskirts",
+        "reward": {
+            "xp": 10,
+            "gold": 10
+        },
+        "steps": [
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "old_man"
+                },
+                "description": "Talk to the Old Man in the village outskirts.",
+                "dialogue": "Ah, so you've brought the stone... I can feel its dark energy even from here. This is no ordinary curse, it's bound to an ancient malice. To cleanse it, you'll need Blessed Water from the Enchanted Glade. But beware, traveler, the glade may look serene, but it holds its own secrets and dangers.",
+                "unlock_area": "enchanted_glade"
+            },
+            {
+                "type": "exploration",
+                "trigger": {
+                    "area": "enchanted_glade"
+                },
+                "description": "Retrieve Blessed Water from the Enchanted Glade.",
+                "story_text": "With the dangers of the glade behind you, the pool of Blessed Water glimmers invitingly, untouched and pristine. As you approach, the guardian spirit fades, its challenge overcome. Kneeling by the water, you fill a small vial with the shimmering liquid. The air around you grows lighter, and a soft, melodic hum fills your ears, as though the glade itself acknowledges your success. You sense that this water holds great power, enough to purify even the darkest of curses.",
+                "story_item": "blessed_water"
+            },
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "old_man"
+                },
+                "description": "Return to the Old Man with the Blessed Water.",
+                "dialogue": "Ah, the Blessed Water. This will cleanse part of the curse, but the stone's corruption runs deep. You'll need an Enchanted Herb from the Poisoned Marsh to complete the purification. Be ready, it won't be an easy task."
+            }
+        ],
+        "linked_location": "village",
+        "unlock_quest": "third_story_quest"
+    },
+    "third_story_quest": {
+        "desc": "Gather the Enchanted Herb from the Poisoned Marsh.",
+        "area": "Poisoned Marsh",
+        "reward": {
+            "xp": 15,
+            "gold": 15
+        },        
+        "steps": [
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "old_man"
+                },
+                "description": "Speak with the Old Man for more details about the Enchanted Herb.",
+                "dialogue": "The Poisoned Marsh is treacherous, filled with noxious fumes and restless monsters. The herb grows near the largest tree in the center, but you'll need to move quickly... the marsh doesn't take kindly to visitors.",
+                "unlock_area": "poisoned_marsh"
+            },
+            {
+                "type": "exploration",
+                "trigger": {
+                    "area": "poisoned_marsh"
+                },
+                "description": "Find and retrieve the Enchanted Herb from the Poisoned Marsh.",
+                "story_text": "The Poisoned Marsh is a desolate expanse of twisting vines and bubbling swamps. At its heart, you spot the great tree, its roots half-submerged in the fetid water. After fending off a swarm of restless creatures, you carefully pluck the glowing Enchanted Herb. A faint warmth emanates from it... a sign of its magical properties.",
+                "story_item": "enchanted_herb"
+            },
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "old_man"
+                },
+                "description": "Return to the Old Man with the Enchanted Herb.",
+                "dialogue": "You've done it! With the herb and the Blessed Water, we can purify the stone. But just purifying the stone is not enough. You must destroy the source of the curse itself or it will just come back. With this dark energy, the source must be the Dark Wizard in the old Wizard's Tower deep into the older parts of the forest. In order to let the forest be at peace, you must defeat him."
+            }
+        ],
+        "linked_location": "village",
+        "unlock_quest": "fourth_story_quest"
+    },
+    "fourth_story_quest": {
+        "desc": "Confront the Dark Wizard in the Wizard's Tower.",
+        "area": "Wizard's Tower",
+        "reward": {
+            "xp": 30,
+            "gold": 20
+        },
+        "steps": [
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "old_man"
+                },
+                "description": "Speak with the Old Man to prepare for the final confrontation.",
+                "dialogue": "The Wizard's Tower is a place of great power, and great danger. The Dark Wizard is no ordinary foe. Take this healing potion, and may the gods watch over you.",
+                "unlock_area": "wizard's_tower",
+                "reward_item": "small_healing_potion"
+            },
+            {
+                "type": "exploration",
+                "trigger": {
+                    "area": "wizard's_tower"
+                },
+                "description": "Defeat the Dark Wizard and free the Wizard's Tower and the forest from his control.",
+                "story_text": "The Wizard's Tower exudes a chilling energy, its halls crawling with skeleton guardians. At the summit, the Dark Wizard looms, surrounded by a storm of magical energy. After a fierce battle, you channel your inner power to shatter his defenses, delivering the final blow. As the Dark Wizard falls, the oppressive magic dissipates, and the tower grows eerily silent. Among the remnants of his power, you find a shimmering artifact... a symbol of your victory.",
+                "story_item": "wizard's_medallion"
+            },
+            {
+                "type": "interaction",
+                "trigger": {
+                    "npc": "old_man"
+                },
+                "description": "Return to the Old Man and inform him of your success.",
+                "dialogue": "The Dark Wizard is defeated, and his foul curse is no more! You have done what no one else could. This land owes you a great debt brave adventurer."
+            }
+        ],
+        "linked_location": "village"
+    }
+}

@@ -1,0 +1,5 @@
+BACKGROUND_IMAGES = {
+    "home": "Adventure Game/images/home_bg.webp",
+    "village": "Adventure Game/images/village_bg.jpg",
+    "exploration": "Adventure Game/images/exploration_bg.jpg"
+}
