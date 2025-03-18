@@ -41,7 +41,7 @@ class GameDisplay:
 
         self.disable_clicks = False
         self.locations = None
-        self.choice_box_height = 150
+        self.choice_box_height = min(int(SCREEN_HEIGHT * 0.15), SCREEN_HEIGHT // 4)
         self.buttons = []
 
         self.ui_manager = UIManager(self.screen)
@@ -87,8 +87,9 @@ class GameDisplay:
         button_spacing_y = int(screen_height * 0.02)
         columns = self.current_location.ui_config["columns"]
 
+        self.choice_box_height = min(int(screen_height * 0.15), screen_height // 4)
         start_x = (screen_width - (columns * (button_width + button_spacing_x))) // 2
-        start_y = screen_height - self.choice_box_height - int(screen_height * 0.02)
+        start_y = max(screen_height - self.choice_box_height - button_height + int(screen_height * 0.01), screen_height * 0.76)
 
         for index, choice in enumerate(choices):
             row = index // columns
@@ -147,18 +148,27 @@ class GameDisplay:
         if self.current_background:
             self.screen.blit(self.current_background, (0, 0))
 
-        # Draw UI box at the bottom
-        choice_box = pg.Surface((SCREEN_WIDTH, 190), pg.SRCALPHA)
-        choice_box.fill(TRANSPARENT_GREY)
-        self.screen.blit(choice_box, (0, SCREEN_HEIGHT - 190))
+        screen_width, screen_height = self.screen.get_size()
 
-        # Draw buttons inside the choice box
+        if self.buttons:
+            # **Find where the buttons start (the highest Y-position)**
+            start_y = min(button.rect.top for button in self.buttons)
+
+            # **Choice box height is from start_y down to the screen bottom**
+            choice_box_height = (screen_height - start_y) + int(screen_height * 0.02)
+
+            # **Draw the semi-transparent UI box**
+            choice_box = pg.Surface((screen_width, choice_box_height), pg.SRCALPHA)
+            choice_box.fill(TRANSPARENT_GREY)
+            self.screen.blit(choice_box, (0, start_y - int(screen_height * 0.02)))
+
+        # **Draw buttons on top**
         for button in self.buttons:
             button.draw(self.screen)
-        
-        self.ui_manager.draw()
 
+        self.ui_manager.draw()
         pg.display.flip()
+
 
     def game_loop(self):
         """Main game loop to update and render everything."""
