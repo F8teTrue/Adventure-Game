@@ -1,6 +1,7 @@
 import pygame as pg
 import sys
 from ui.ui_manager import UIManager
+from ui.button import Button
 from ui.status_ui import StatusUI
 
 
@@ -13,8 +14,6 @@ FPS = 60
 
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
-GREY = (50, 50, 50)
-HOVER_COLOR = (180, 180, 180)
 TRANSPARENT_GREY = (30, 30, 30, 200)
 
 BACKGROUND_IMAGES = {
@@ -27,38 +26,6 @@ BACKGROUND_IMAGES = {
 UI_MAPPING = {
     "Check Status": "status_ui",
 }
-
-class Button:
-    """Represents an interactive button in the UI with hover effects."""
-    def __init__(self, text, x, y, width, height, action):
-        self.text = text
-        self.rect = pg.Rect(x, y, width, height)
-        self.action = action
-        self.font = pg.font.Font(None, 48)
-        self.base_color = WHITE
-        self.hover_color = HOVER_COLOR
-        self.text_color = BLACK
-        self.current_color = self.base_color
-
-    def draw(self, screen):
-        """Draws the button on the screen with a hover effect."""
-        pg.draw.rect(screen, self.current_color, self.rect, border_radius = 8)
-        pg.draw.rect(screen, GREY, self.rect, 3, border_radius = 8)
-        text_surface = self.font.render(self.text, True, self.text_color)
-        text_rect = text_surface.get_rect(center = self.rect.center)
-        screen.blit(text_surface, text_rect)
-    
-    def handle_event(self, event, disable_clicks):
-        """Handles mouse click and hover events for the button."""
-        mouse_pos = pg.mouse.get_pos()
-        if self.rect.collidepoint(mouse_pos):
-            self.current_color = self.hover_color
-            if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
-                if not disable_clicks:
-                    if self.action:
-                        self.action()
-        else:
-            self.current_color = self.base_color
 
 class GameDisplay:
     """
@@ -78,7 +45,7 @@ class GameDisplay:
         self.buttons = []
 
         self.ui_manager = UIManager(self.screen)
-        self.status_ui = StatusUI(self.screen)
+        self.status_ui = StatusUI(self.screen, self.ui_manager)
 
     def initialize_game(self, player, locations):
         """Starts the main game after initialization."""
@@ -100,7 +67,7 @@ class GameDisplay:
 
     def update_background(self, location_name):
         """Updates the background image when the screen resizes or location changes."""
-        location_name = location_name.lower()  # Convert to lowercase to match dictionary keys
+        location_name = location_name.lower()
 
         if location_name in BACKGROUND_IMAGES:
             self.current_background = self.load_background(location_name)
@@ -132,32 +99,33 @@ class GameDisplay:
 
             if choice.description in UI_MAPPING:
                 ui_name = UI_MAPPING[choice.description]
+                ui_instance = getattr(self, ui_name, None)
                 # print(f"Mapping {choice.description} to UI: {ui_name}")  # Debug
 
-                action = lambda ui=self.__getattribute__(ui_name), player=self.player: self.ui_manager.open_ui(ui, player)
+                action = lambda ui = ui_instance, player = self.player: self.ui_manager.open_ui(ui, player)
             else:
-                action = lambda ch=choice: self.handle_choice(ch)
+                action = lambda ch = choice: self.handle_choice(ch)
 
-            self.buttons.append(Button(choice.description, x, y, button_width, button_height, action))
+            self.buttons.append(Button(choice.description, 48, x, y, button_width, button_height, 8,action))
 
     def handle_choice(self, choice):
         """Handles player choices and location changes dynamically."""
         self.disable_clicks = True
 
-        print(f"Handling choice: {choice.description}")  #Debug
+        # print(f"Handling choice: {choice.description}")  #Debug
 
         #UI Button Handling
         if choice.description in UI_MAPPING:
             ui_name = UI_MAPPING[choice.description]
-            ui_instance = self.__getattribute__(ui_name)
+            ui_instance = getattr(self, ui_name, None)
 
             # print(f"Opening UI: {ui_name}")  # Debug
-
-            self.ui_manager.open_ui(ui_instance, self.player)
-            self.disable_clicks = False
+            if ui_instance:
+                self.ui_manager.open_ui(ui_instance, self.player)
+                self.disable_clicks = False
             return
 
-        print(f"Executing choice: {choice.description}")
+        # print(f"Executing choice: {choice.description}") # Debug
 
         result = choice.execute(self.locations)
 
@@ -197,18 +165,21 @@ class GameDisplay:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
                     self.running = False
-                if event.type == pg.VIDEORESIZE:
+
+                elif event.type == pg.VIDEORESIZE:
                     global SCREEN_WIDTH, SCREEN_HEIGHT
                     SCREEN_WIDTH, SCREEN_HEIGHT = event.w, event.h
                     self.update_background(self.current_location.name)
                     self.update_ui()
-                if self.ui_manager.active_ui:
+
+                elif self.ui_manager.active_ui:
                     self.ui_manager.handle_event(event)
                     if not self.ui_manager.active_ui:
                         self.disable_clicks = False
                         self.update_ui()
                     continue
-                if event.type == pg.USEREVENT:
+
+                elif event.type == pg.USEREVENT:
                     self.disable_clicks = False
                     continue
 
