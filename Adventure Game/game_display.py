@@ -60,7 +60,7 @@ class GameDisplay:
         """Loads and scales the background image for the current location."""
         try:
             bg = pg.image.load(BACKGROUND_IMAGES.get(location_key, BACKGROUND_IMAGES["home"])).convert()
-            return pg.transform.scale(bg, (SCREEN_WIDTH, SCREEN_HEIGHT))
+            return pg.transform.scale(bg, self.screen.get_size())
         except pg.error:
             print(f"Error loading background for {location_key}")
             return None
@@ -80,14 +80,15 @@ class GameDisplay:
         self.buttons.clear()
         choices = self.current_location.choices
 
-        button_width = self.current_location.ui_config["button_width"]
-        button_height = self.current_location.ui_config["button_height"]
-        button_spacing_x = self.current_location.ui_config["button_spacing_x"]
-        button_spacing_y = self.current_location.ui_config["button_spacing_y"]
+        screen_width, screen_height = self.screen.get_size()
+        button_width = int(screen_width * 0.29)
+        button_height = int(screen_height * 0.1)
+        button_spacing_x = int(screen_width * 0.015)
+        button_spacing_y = int(screen_height * 0.02)
         columns = self.current_location.ui_config["columns"]
 
-        start_x = (SCREEN_WIDTH - (columns * (button_width + button_spacing_x))) // 2
-        start_y = SCREEN_HEIGHT - self.choice_box_height - 15
+        start_x = (screen_width - (columns * (button_width + button_spacing_x))) // 2
+        start_y = screen_height - self.choice_box_height - int(screen_height * 0.02)
 
         for index, choice in enumerate(choices):
             row = index // columns
@@ -106,7 +107,7 @@ class GameDisplay:
             else:
                 action = lambda ch = choice: self.handle_choice(ch)
 
-            self.buttons.append(Button(choice.description, 48, x, y, button_width, button_height, 8,action))
+            self.buttons.append(Button(choice.description, int(button_width * 0.1 - 2), x, y, button_width, button_height, 8,action))
 
     def handle_choice(self, choice):
         """Handles player choices and location changes dynamically."""

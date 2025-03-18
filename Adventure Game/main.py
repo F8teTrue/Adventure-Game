@@ -3,6 +3,7 @@ from game_data import areas, shops, combat_quests, story_quests
 from location import Home, Village, QuestHall, Exploration
 from game_display import GameDisplay
 from ui.ui_manager import UIManager
+from items import all_items
 
 class Game:
     """
@@ -18,7 +19,12 @@ class Game:
 
         # Create the player
         self.player = Player("Adventurer")
-
+        self.player.add_to_inventory(all_items["basic_sword"])
+        self.player.add_to_inventory(all_items["basic_sword"])
+        self.player.add_to_inventory(all_items["leather_armour"])
+        self.player.add_to_inventory(all_items["small_healing_potion"])
+        self.player.add_to_inventory(all_items["small_strength_potion"])
+        self.player.add_to_inventory(all_items["wizard's_medallion"])
         # Set up locations
         self.locations = {
             "home": Home(self.player, self.ui_manager),
