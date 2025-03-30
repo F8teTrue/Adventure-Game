@@ -58,7 +58,7 @@ class Home(Location):
             Choice("Visit the village", lambda: "village", clear_method=clear_screen),
             Choice("Explore an area", lambda: "exploration", clear_method=clear_screen),
             Choice("Check Status", lambda: self.ui_manager.open_ui(self.status_ui, self.player)),
-            Choice("Manage inventory", player.manage_inventory)
+            Choice("Manage inventory", lambda: self.ui_manager.open_ui(self.inventory_ui, self.player)),
         ]
 
         self.ui_config.update({

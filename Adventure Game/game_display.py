@@ -3,6 +3,7 @@ import sys
 from ui.ui_manager import UIManager
 from ui.button import Button
 from ui.status_ui import StatusUI
+from ui.inventory_ui import InventoryUI
 
 
 pg.init()
@@ -25,6 +26,7 @@ BACKGROUND_IMAGES = {
 
 UI_MAPPING = {
     "Check Status": "status_ui",
+    "Manage inventory": "inventory_ui",
 }
 
 class GameDisplay:
@@ -46,6 +48,7 @@ class GameDisplay:
 
         self.ui_manager = UIManager(self.screen)
         self.status_ui = StatusUI(self.screen, self.ui_manager)
+        self.inventory_ui = InventoryUI(self.screen, self.ui_manager, None)
 
     def initialize_game(self, player, locations):
         """Starts the main game after initialization."""
@@ -151,18 +154,14 @@ class GameDisplay:
         screen_width, screen_height = self.screen.get_size()
 
         if self.buttons:
-            # **Find where the buttons start (the highest Y-position)**
             start_y = min(button.rect.top for button in self.buttons)
 
-            # **Choice box height is from start_y down to the screen bottom**
             choice_box_height = (screen_height - start_y) + int(screen_height * 0.02)
 
-            # **Draw the semi-transparent UI box**
             choice_box = pg.Surface((screen_width, choice_box_height), pg.SRCALPHA)
             choice_box.fill(TRANSPARENT_GREY)
             self.screen.blit(choice_box, (0, start_y - int(screen_height * 0.02)))
 
-        # **Draw buttons on top**
         for button in self.buttons:
             button.draw(self.screen)
 

@@ -212,7 +212,7 @@ class Player:
         else:
             print(Formatter.yellow_bold(f"Item '{item_key}' is not in your inventory."))
     
-    def categorize_inventory(self):
+    def categorise_inventory(self):
         """
         Organize the player's inventory by item categories.
         """
@@ -236,91 +236,148 @@ class Player:
         
         return categories
     
-    def view_inventory(self):
+    def get_inventory_mapping(self):
         """
-        Display the player's inventory with numbered items.
-        Returns a mapping of numbers to item keys.
-        """
-        if not self.inventory:
-            print(Formatter.yellow_bold("\nYour inventory is empty."))
-            continue_clear_screen()
-            return {}
+        Returns inventory data by category and a flat item number -> key map.
 
-        print(f"\n{Formatter.green_bold(self.name)}'s Inventory:")
+        Returns:
+            tuple: A tuple containing:
+                - categories (dict): A dictionary of item categories and their items.
+                - item_mapping (dict): A mapping of item numbers to item keys.
+        """
+        categories =  self.categorize_inventory()
         item_mapping = {}
         item_number = 1
-        categories = self.categorize_inventory()
 
         for category, items in categories.items():
-            print(f"\n{Formatter.yellow_bold(category)}:")
-            if not items:
-                print("  No items in this category.")
-            else:
-                for item, quantity in items:
-                    stack_info = f" ({Formatter.blue_bold(f'x{quantity}')})" if quantity > 1 else ""
-                    equipped_marker = ""
-                    if item == self.weapon or item == self.armour:
-                        equipped_marker = f" {Formatter.red_bold('(Equipped)')}"
-                    print(f"  {Formatter.blue_bold(item_number)}. {Formatter.white_bold(item.name)}{stack_info}{equipped_marker} - {item.description}")
-                    item_mapping[item_number] = item.name.lower().replace(" ", "_") 
-                    item_number += 1
-
-        return item_mapping
-
-
-    def use_item(self, item_number, item_mapping):
+            for item, quantity in items:
+                item_key = item.name.lower().replace(" ", "_")
+                item_mapping[item_number] = item_key
+                item_number += 1
+        
+        return categories, item_mapping
+    
+    def use_item(self, item_key : str) -> str:
         """
-        Use or equip an item from the inventory by number.
+        Use or equip an item from the inventory.
 
         Parameters:
-            item_number (int): The number of the item to use.
-            item_mapping (dict): Mapping of item numbers to item keys.
-        """
-        if item_number not in item_mapping:
-            print(Formatter.yellow_bold(f"Invalid item number '{item_number}'."))
-            return
+            item_key (str): The key name of the item to use.
 
-        item_key = item_mapping[item_number]
-        item = self.inventory[item_key]["item"] 
+        Returns:
+            str: Action feedback for UI display.
+        """
+        if item_key not in self.inventory:
+            return f"Item '{item_key}' is not in your inventory."
+        
+        item_data = self.inventory[item_key]
+        item = item_data["item"]
 
         if isinstance(item, Weapon):
             item.equip(self)
+            return f"Equipped {item.name}."
+        
         elif isinstance(item, Armour):
             item.equip(self)
+            return f"Equipped {item.name}."
+        
         elif isinstance(item, Potion):
             if item.effect_type == "strength_boost" and "strength_boost" in self.active_effects:
-                print(Formatter.yellow_bold("You already have an active strength boost. Wait until it wears off to use another."))
-                return
+                return "You already have an active strength boost. Wait until it wears off to use another."
             item.use(self)
-            self.inventory[item_key]["quantity"] -= 1 
-            if self.inventory[item_key]["quantity"] <= 0:
+            item_data["quantity"] -= 1
+            if item_data["quantity"] <= 0:
                 del self.inventory[item_key]
+            return f"Used {item.name}."
+        
         else:
-            print(f"{Formatter.yellow_bold(item.name)} cannot be used.")
+            return f"{item.name} cannot be used."
     
-    def manage_inventory(self):
-        """
-        Allow the player to manage their inventory using item numbers.
-        """
-        while True:
-            item_mapping = self.view_inventory()  # Display the inventory and get the mapping
-            if not item_mapping:  # If inventory is empty, exit
-                return
+    # def view_inventory(self):
+    #     """
+    #     Display the player's inventory with numbered items.
+    #     Returns a mapping of numbers to item keys.
+    #     """
+    #     if not self.inventory:
+    #         print(Formatter.yellow_bold("\nYour inventory is empty."))
+    #         continue_clear_screen()
+    #         return {}
 
-            choice = input(f"\nEnter the {Formatter.blue_bold('number')} of the {Formatter.white_bold('item')} to use, or '{Formatter.red_bold('back')}' to return: ").lower()
+    #     print(f"\n{Formatter.green_bold(self.name)}'s Inventory:")
+    #     item_mapping = {}
+    #     item_number = 1
+    #     categories = self.categorize_inventory()
 
-            if choice == "back":
-                clear_screen()
-                break
+    #     for category, items in categories.items():
+    #         print(f"\n{Formatter.yellow_bold(category)}:")
+    #         if not items:
+    #             print("  No items in this category.")
+    #         else:
+    #             for item, quantity in items:
+    #                 stack_info = f" ({Formatter.blue_bold(f'x{quantity}')})" if quantity > 1 else ""
+    #                 equipped_marker = ""
+    #                 if item == self.weapon or item == self.armour:
+    #                     equipped_marker = f" {Formatter.red_bold('(Equipped)')}"
+    #                 print(f"  {Formatter.blue_bold(item_number)}. {Formatter.white_bold(item.name)}{stack_info}{equipped_marker} - {item.description}")
+    #                 item_mapping[item_number] = item.name.lower().replace(" ", "_") 
+    #                 item_number += 1
 
-            try:
-                item_number = int(choice)
-                self.use_item(item_number, item_mapping)
-                pause_clear_screen(3) 
+    #     return item_mapping
 
-            except ValueError:
-                print(Formatter.red_bold("Invalid input. Please enter a number or 'back'."))
-                pause_clear_screen(2)
+
+    # def use_item(self, item_number, item_mapping):
+    #     """
+    #     Use or equip an item from the inventory by number.
+
+    #     Parameters:
+    #         item_number (int): The number of the item to use.
+    #         item_mapping (dict): Mapping of item numbers to item keys.
+    #     """
+    #     if item_number not in item_mapping:
+    #         print(Formatter.yellow_bold(f"Invalid item number '{item_number}'."))
+    #         return
+
+    #     item_key = item_mapping[item_number]
+    #     item = self.inventory[item_key]["item"] 
+
+    #     if isinstance(item, Weapon):
+    #         item.equip(self)
+    #     elif isinstance(item, Armour):
+    #         item.equip(self)
+    #     elif isinstance(item, Potion):
+    #         if item.effect_type == "strength_boost" and "strength_boost" in self.active_effects:
+    #             print(Formatter.yellow_bold("You already have an active strength boost. Wait until it wears off to use another."))
+    #             return
+    #         item.use(self)
+    #         self.inventory[item_key]["quantity"] -= 1 
+    #         if self.inventory[item_key]["quantity"] <= 0:
+    #             del self.inventory[item_key]
+    #     else:
+    #         print(f"{Formatter.yellow_bold(item.name)} cannot be used.")
+    
+    # def manage_inventory(self):
+    #     """
+    #     Allow the player to manage their inventory using item numbers.
+    #     """
+    #     while True:
+    #         item_mapping = self.view_inventory()  # Display the inventory and get the mapping
+    #         if not item_mapping:  # If inventory is empty, exit
+    #             return
+
+    #         choice = input(f"\nEnter the {Formatter.blue_bold('number')} of the {Formatter.white_bold('item')} to use, or '{Formatter.red_bold('back')}' to return: ").lower()
+
+    #         if choice == "back":
+    #             clear_screen()
+    #             break
+
+    #         try:
+    #             item_number = int(choice)
+    #             self.use_item(item_number, item_mapping)
+    #             pause_clear_screen(3) 
+
+    #         except ValueError:
+    #             print(Formatter.red_bold("Invalid input. Please enter a number or 'back'."))
+    #             pause_clear_screen(2)
 
     def adjust_gold(self, amount : int):
         """

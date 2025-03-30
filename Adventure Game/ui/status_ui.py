@@ -31,7 +31,7 @@ class StatusUI:
         self.popup_y = (self.screen.get_height() - self.popup_height) // 2
 
     def toggle(self, player):
-        """Toggles UI on/off using UIManager."""
+        """Opens the status UI."""
         self.is_open = True
         self.status_text = (
             f"Name: {player.name}\n"

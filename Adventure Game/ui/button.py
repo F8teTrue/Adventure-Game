@@ -23,7 +23,7 @@ class Button:
         self.rect = pg.Rect(x, y, width, height)
         self.border_radius = border_radius
         self.action = action
-        self.font = pg.font.Font(None, font_size)
+        self.font = pg.font.Font(None, int(font_size))
         self.base_color = WHITE
         self.hover_color = HOVER_COLOR
         self.text_color = BLACK
@@ -62,9 +62,14 @@ class CloseButton(Button):
         ui_manager (UIManager): The UI manager to handle closing.
     """
     def __init__(self, x, y, size, ui_manager):
-        super().__init__("X", size - 6, x, y, size, size, 10, lambda: ui_manager.close_ui())
+        if ui_manager:
+            action = lambda: ui_manager.close_ui()
+        else:
+            action = lambda: None
+
+        super().__init__("X", size - 6, x, y, size, size, 10, action)
         self.ui_manager = ui_manager
-    
+
     def update_position(self, x, y):
         """
         Updates the position of the close button.
