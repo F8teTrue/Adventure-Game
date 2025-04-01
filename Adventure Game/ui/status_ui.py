@@ -37,7 +37,7 @@ class StatusUI:
             f"Name: {player.name}\n"
             f"Level: {player.level} ({player.xp}/{player.calculate_xp_needed()})\n"
             f"Health: {player.health}/{player.max_health}\n"
-            f"Attack: {player.attack}\n"
+            f"Attack: {player.base_attack}\n"
             f"Defense: {player.base_defence}\n"
             f"Gold: {player.gold}"
         )
@@ -46,7 +46,7 @@ class StatusUI:
 
     def create_close_button(self, force_update = False):
         """Creates or updates the close button position based on popup size."""
-        button_size = int(self.popup_width * 0.1) 
+        button_size = 30
         button_x = self.popup_x + self.popup_width - button_size - 8
         button_y = self.popup_y + 8
 

@@ -30,6 +30,15 @@ class Weapon(Item):
         player.attack = player.base_attack
         print(f"{Formatter.green_bold(player.name)} equipped {Formatter.cyan_bold(self.name)}, gaining +{Formatter.yellow_bold(self.effect_value)} attack.")
 
+    def unequip(self, player : object):
+        """
+        Unequip the player's current weapon, resetting the attack stat.
+        """
+        if player.weapon:
+            player.base_attack -= player.weapon.effect_value
+            player.weapon = None
+            print(f"{Formatter.green_bold(player.name)} unequipped {Formatter.cyan_bold(self.name)}, losing -{Formatter.yellow_bold(self.effect_value)} attack.")
+
 class Armour(Item):
     """
     Class for armours, inheriting from Item.
@@ -43,6 +52,15 @@ class Armour(Item):
         player.armour = self
         player.base_defence += self.effect_value
         print(f"{Formatter.green_bold(player.name)} equipped {Formatter.cyan_bold(self.name)}, gaining +{Formatter.yellow_bold(self.effect_value)} defence.")
+    
+    def unequip(self, player : object):
+        """
+        Unequip the player's current armour, resetting the defence stat.
+        """
+        if player.armour:
+            player.base_defence -= player.armour.effect_value
+            player.armour = None
+            print(f"{Formatter.green_bold(player.name)} unequipped {Formatter.cyan_bold(self.name)}, losing -{Formatter.yellow_bold(self.effect_value)} defence.")
 
 class Potion(Item):
     """

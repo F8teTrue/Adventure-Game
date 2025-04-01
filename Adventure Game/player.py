@@ -220,7 +220,7 @@ class Player:
             "Weapons": [],
             "Armours": [],
             "Potions": [],
-            "Miscellaneous": []
+            "Misc": []
         }
 
         for details in self.inventory.values():
@@ -232,7 +232,7 @@ class Player:
             elif isinstance(item, Potion):
                 categories["Potions"].append((item, details["quantity"]))
             else:
-                categories["Miscellaneous"].append((item, details["quantity"]))
+                categories["Misc"].append((item, details["quantity"]))
         
         return categories
     
@@ -293,6 +293,25 @@ class Player:
         else:
             return f"{item.name} cannot be used."
     
+    def unequip_item(self, item_key : str):
+        """
+        Unequip an item from the player.
+
+        Parameters:
+            item_key (str): The key name of the item to unequip.
+        """
+        if item_key in self.inventory:
+            item_data = self.inventory[item_key]
+            item = item_data["item"]
+            if isinstance(item, Weapon):
+                item.unequip(self)
+            elif isinstance(item, Armour):
+                item.unequip(self)
+            else:
+                print(f"{Formatter.yellow_bold(item.name)} cannot be unequipped.")
+        else:
+            print(Formatter.yellow_bold(f"Item '{item_key}' is not in your inventory."))
+        
     # def view_inventory(self):
     #     """
     #     Display the player's inventory with numbered items.

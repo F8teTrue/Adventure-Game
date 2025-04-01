@@ -21,11 +21,15 @@ class Game:
         self.player = Player("Adventurer")
         self.player.add_to_inventory(all_items["basic_sword"])
         self.player.add_to_inventory(all_items["basic_sword"])
+        self.player.add_to_inventory(all_items["great_sword"])
         self.player.add_to_inventory(all_items["leather_armour"])
         self.player.add_to_inventory(all_items["leather_armour"])
+        self.player.add_to_inventory(all_items["plate_armour"])
         self.player.add_to_inventory(all_items["small_healing_potion"])
         self.player.add_to_inventory(all_items["small_strength_potion"])
         self.player.add_to_inventory(all_items["small_strength_potion"])
+        self.player.add_to_inventory(all_items["large_healing_potion"])
+        self.player.add_to_inventory(all_items["large_strength_potion"])
         self.player.add_to_inventory(all_items["wizard's_medallion"])
         # Set up locations
         self.locations = {

@@ -53,7 +53,7 @@ class InventoryUI:
         self.popup_x = (self.screen.get_width() - self.popup_width) // 2
         self.popup_y = (self.screen.get_height() - self.popup_height - 100) // 2
 
-        button_size = self.popup_width * 0.04
+        button_size = 30
         button_x = self.popup_x + self.popup_width - button_size - 10
         button_y = self.popup_y + 10
         self.close_button = CloseButton(button_x, button_y, button_size, self.ui_manager)
@@ -186,9 +186,6 @@ class ItemDetailPopup:
 
         self.parent_ui = None
         self.update_layout()
-
-        self.buttons = []
-        self.setup_buttons()
     
     def update_layout(self):
         """Update the layout of the popup based on screen size."""
@@ -200,7 +197,7 @@ class ItemDetailPopup:
 
         self.setup_buttons()
 
-        close_size = int(self.width * 0.07)
+        close_size = 30
         self.close_button = CloseButton(
             self.x + self.width - close_size - 8,
             self.y + 8,
@@ -225,7 +222,10 @@ class ItemDetailPopup:
             label = "Use"
         
         if label:
-            self.buttons.append(Button(label, 24, self.x + 20, y_offset, button_width, button_height, 6, lambda: self.use_item(item)))
+            if label == "Equip" or label == "Use":
+                self.buttons.append(Button(label, 24, self.x + 20, y_offset, button_width, button_height, 6, lambda: self.use_item(item)))
+            elif label == "Unequip":
+                self.buttons.append(Button(label, 24, self.x + 20, y_offset, button_width, button_height, 6, lambda: self.unequip_item(item)))
         else:
             self.buttons.append(Button("This item can't be used or equipped.", 24, self.x + 20, y_offset, button_width, button_height, 6, None))
 
@@ -233,6 +233,12 @@ class ItemDetailPopup:
         """Use or equip the selected item."""
         item_key = item.name.lower().replace(" ", "_")
         self.player.use_item(item_key)
+        self.close_popup()
+    
+    def unequip_item(self, item):
+        """Unequip the selected item."""
+        item_key = item.name.lower().replace(" ", "_")
+        self.player.unequip_item(item_key)
         self.close_popup()
 
     def close_popup(self):
