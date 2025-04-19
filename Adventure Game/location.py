@@ -75,12 +75,13 @@ class Village(Location):
         player (Player): The player object in the game.
         shop (Shop): The shop object for the village.
     """
-    def __init__(self, player : object, shop : object):
+    def __init__(self, player : object, shop : object, ui_manager : object):
         super().__init__(player, "Village", Formatter.white_bold("The bustling village awaits."))
         self.shop = shop
+        self.ui_manager = ui_manager
         self.npc_dict = {}
         self.choices = [
-            Choice("Visit the Adventurer's Shop", lambda: self.shop.enter_shop(self.player), clear_method=clear_screen),
+            Choice("Visit the Adventurer's Shop", lambda: self.ui_manager.open_ui(self.shop_ui, self.player)),
             Choice("Go to the Quest Hall", lambda: "quest_hall", clear_method=clear_screen),
             Choice("Return home", lambda: "home", clear_method=clear_screen)
         ]

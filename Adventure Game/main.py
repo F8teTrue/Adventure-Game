@@ -19,6 +19,7 @@ class Game:
 
         # Create the player
         self.player = Player("Adventurer")
+        self.player.adjust_gold(100)
         self.player.add_to_inventory(all_items["basic_sword"])
         self.player.add_to_inventory(all_items["basic_sword"])
         self.player.add_to_inventory(all_items["great_sword"])
@@ -34,13 +35,17 @@ class Game:
         # Set up locations
         self.locations = {
             "home": Home(self.player, self.ui_manager),
-            "village": Village(self.player, shops["Adventurer's Shop"]),
+            "village": Village(self.player, shops["Adventurer's Shop"], self.ui_manager),
             "exploration": Exploration(self.player, areas),
         }
         self.locations["quest_hall"] = QuestHall(self.player, combat_quests, story_quests, self.locations)
 
+        self.locations["village"].shop_ui = self.game_display.shop_ui
+        self.locations["village"].shop_ui.set_shop(shops["Adventurer's Shop"])
+
+
         # Initialize the game
-        self.game_display.initialize_game(self.player, self.locations)
+        self.game_display.initialize_game(self.player, self.locations, shops)
 
 if __name__ == "__main__":
     Game()  # Start the game

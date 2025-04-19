@@ -2,6 +2,8 @@ import json, os
 from area import Area
 from shop import Shop
 from quest import CombatQuest, StoryQuest
+import pandas as pd
+from tabulate import tabulate
 
 # Load area data from areas.json
 with open("Adventure Game/json/areas.json", "r") as areas_file:

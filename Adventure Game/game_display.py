@@ -4,6 +4,7 @@ from ui.ui_manager import UIManager
 from ui.button import Button
 from ui.status_ui import StatusUI
 from ui.inventory_ui import InventoryUI
+from ui.shop_ui import ShopUI
 
 
 pg.init()
@@ -27,6 +28,7 @@ BACKGROUND_IMAGES = {
 UI_MAPPING = {
     "Check Status": "status_ui",
     "Manage inventory": "inventory_ui",
+    "Visit the Adventurer's Shop": "shop_ui",
 }
 
 class GameDisplay:
@@ -49,11 +51,14 @@ class GameDisplay:
         self.ui_manager = UIManager(self.screen)
         self.status_ui = StatusUI(self.screen, self.ui_manager)
         self.inventory_ui = InventoryUI(self.screen, self.ui_manager, None)
+        self.shop_ui = ShopUI(self.screen, self.ui_manager, None, None)
 
-    def initialize_game(self, player, locations):
+    def initialize_game(self, player, locations, shops):
         """Starts the main game after initialization."""
         self.player = player
         self.locations = locations
+        self.shops = shops
+        print(self.shops)
         self.current_location = self.locations["home"]
         self.update_background("home")
         self.update_ui()
@@ -124,7 +129,6 @@ class GameDisplay:
             ui_name = UI_MAPPING[choice.description]
             ui_instance = getattr(self, ui_name, None)
 
-            # print(f"Opening UI: {ui_name}")  # Debug
             if ui_instance:
                 self.ui_manager.open_ui(ui_instance, self.player)
                 self.disable_clicks = False
@@ -170,7 +174,7 @@ class GameDisplay:
 
 
     def game_loop(self):
-        """Main game loop to update and render everything."""
+        """Main pygame loop to update and render everything."""
         while self.running:
             for event in pg.event.get():
                 if event.type == pg.QUIT:
